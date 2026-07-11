@@ -1,0 +1,8 @@
+#include "CLI.hpp"
+
+int main()
+{
+    CLI app;
+    app.run();
+    return 0;
+}
