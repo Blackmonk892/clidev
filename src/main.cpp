@@ -1,8 +1,8 @@
-#include "CLI.hpp"
+#include "../include/core/Application.hpp"
 
 int main()
 {
-    CLI app;
-    app.run();
-    return 0;
+    Application application;
+
+    return application.run();
 }
