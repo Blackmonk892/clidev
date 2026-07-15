@@ -15,4 +15,5 @@ add_executable(pdfx
     src/main.cpp
     src/core/Application.cpp
     src/cli/Terminal.cpp
+    src/cli/Theme.cpp
 )

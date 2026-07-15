@@ -1,7 +1,49 @@
 ├── .filetreeignore
+├── assets
+  └── banner.txt
 ├── CMakeLists.txt
+├── commands
+  ├── clear
+  ├── exit
+  ├── help
+  └── merge
+├── docs
+  ├── ARCHITECTURE.md
+  └── ROADMAP.md
+├── file-structure.txt
 ├── include
-  └── CLI.hpp
-└── src
-  ├── CLI.cpp
-  └── main.cpp
+  ├── cli
+    ├── Prompt.hpp
+    ├── Terminal.hpp
+    └── Theme.hpp
+  ├── CLI.hpp
+  ├── command
+    ├── CommandRegistry.hpp
+    └── ICommand.hpp
+  ├── core
+    ├── Application.hpp
+    └── Context.hpp
+  ├── filesystem
+    └── FileSystem.hpp
+  ├── parser
+    └── CommandParser.hpp
+  ├── plugins
+    ├── IPlugin.hpp
+    └── PluginManager.hpp
+  └── utils
+    └── Logger.hpp
+├── plugins
+├── README.md
+├── src
+  ├── cli
+    ├── Terminal.cpp
+    └── Theme.cpp
+  ├── command
+  ├── core
+    └── Application.cpp
+  ├── filesystem
+  ├── main.cpp
+  ├── parser
+  ├── plugins
+  └── utils
+├── tests

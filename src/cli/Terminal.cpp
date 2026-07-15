@@ -1,4 +1,5 @@
 #include "../../include/cli/Terminal.hpp"
+#include "../../include/cli/Theme.hpp"
 
 #include <cstdlib>
 #include <iostream>
@@ -6,9 +7,32 @@
 void Terminal::showBanner()
 {
     std::cout
-        << "=========================================\n"
-        << "             PDFX CLI v0.1\n"
-        << "=========================================\n\n";
+        << Theme::primary();
+
+    std::cout <<
+        R"(
+
+╔══════════════════════════════════════════════════════╗
+║                                                      ║
+║   ██████╗ ██████╗ ███████╗██╗  ██╗                   ║
+║   ██╔══██╗██╔══██╗██╔════╝╚██╗██╔╝                   ║
+║   ██████╔╝██║  ██║█████╗   ╚███╔╝                    ║
+║   ██╔═══╝ ██║  ██║██╔══╝   ██╔██╗                    ║
+║   ██║     ██████╔╝██║     ██╔╝ ██╗                   ║
+║   ╚═╝     ╚═════╝ ╚═╝     ╚═╝  ╚═╝                   ║
+║                                                      ║
+║            PDF Toolkit for Developers                ║
+╚══════════════════════════════════════════════════════╝
+
+)";
+
+    std::cout
+        << Theme::reset();
+
+    std::cout
+        << Theme::success()
+        << "Ready.\n"
+        << Theme::reset();
 
     std::cout
         << "Type 'help' to begin.\n\n";
@@ -31,26 +55,55 @@ void Terminal::run()
 
 void Terminal::printPrompt()
 {
-    std::cout << "pdfx > ";
+    std::cout
+        << Theme::primary()
+        << "pdfx"
+        << Theme::reset()
+        << " > ";
+}
+
+void Terminal::showHelp()
+{
+    std::cout <<
+
+        R"(
+
+Available Commands
+
+ help      Show help
+
+ clear     Clear terminal
+
+ exit      Exit PDFX
+
+)";
+}
+
+void Terminal::unknownCommand(const std::string &command)
+{
+    std::cout
+        << Theme::error()
+        << "Unknown command: "
+        << command
+        << Theme::reset()
+        << "\n";
 }
 
 bool Terminal::processCommand(const std::string &command)
 {
     if (command == "exit")
     {
-        std::cout << "Goodbye!\n";
+        std::cout
+            << Theme::success()
+            << "Goodbye!\n"
+            << Theme::reset();
+
         return false;
     }
 
     if (command == "help")
     {
-        std::cout
-            << "\nAvailable Commands\n"
-            << "------------------\n"
-            << "help\n"
-            << "clear\n"
-            << "exit\n\n";
-
+        showHelp();
         return true;
     }
 
@@ -63,10 +116,7 @@ bool Terminal::processCommand(const std::string &command)
     if (command.empty())
         return true;
 
-    std::cout
-        << "Unknown command: "
-        << command
-        << "\n";
+    unknownCommand(command);
 
     return true;
 }

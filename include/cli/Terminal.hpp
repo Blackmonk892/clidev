@@ -15,4 +15,8 @@ private:
     void clear();
 
     bool processCommand(const std::string &command);
+
+    void showHelp();
+
+    void unknownCommand(const std::string &command);
 };
