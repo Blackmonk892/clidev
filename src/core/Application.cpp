@@ -1,6 +1,12 @@
 #include "../../include/core/Application.hpp"
 
-Application::Application() = default;
+#include "../../include/command/MergeCommand.hpp"
+
+#include <memory>
+
+Application::Application() : terminal_(registry_)
+{
+}
 
 int Application::run()
 {
@@ -17,11 +23,9 @@ int Application::run()
 
 void Application::initialize()
 {
-    // Future:
-    // Logger
-    // Config
-    // Plugin Manager
-    // Command Registry
+    registry_.registerCommand(
+        "merge",
+        std::make_unique<MergeCommand>());
 }
 
 void Application::shutdown()

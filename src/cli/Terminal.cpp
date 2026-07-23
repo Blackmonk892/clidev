@@ -1,8 +1,16 @@
 #include "../../include/cli/Terminal.hpp"
 #include "../../include/cli/Theme.hpp"
 
+// test
+#include "../../include/parser/CommandParser.hpp"
+
 #include <cstdlib>
 #include <iostream>
+
+Terminal::Terminal(CommandRegistry &registry)
+    : registry_(registry)
+{
+}
 
 void Terminal::showBanner()
 {
@@ -89,9 +97,12 @@ void Terminal::unknownCommand(const std::string &command)
         << "\n";
 }
 
-bool Terminal::processCommand(const std::string &command)
+bool Terminal::processCommand(const std::string &input)
 {
-    if (command == "exit")
+    if (input.empty())
+        return true;
+
+    if (input == "exit")
     {
         std::cout
             << Theme::success()
@@ -101,22 +112,28 @@ bool Terminal::processCommand(const std::string &command)
         return false;
     }
 
-    if (command == "help")
+    if (input == "help")
     {
         showHelp();
         return true;
     }
 
-    if (command == "clear")
+    if (input == "clear")
     {
         clear();
         return true;
     }
 
-    if (command.empty())
-        return true;
+    CommandParser parser;
 
-    unknownCommand(command);
+    ParsedCommand command = parser.parse(input);
+
+    if (registry_.execute(command.name, command.arguments))
+    {
+        return true;
+    }
+
+    unknownCommand(command.name);
 
     return true;
 }

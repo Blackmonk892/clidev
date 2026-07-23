@@ -1,6 +1,7 @@
 #pragma once
 
 #include "../cli/Terminal.hpp"
+#include "../command/CommandRegistry.hpp"
 
 class Application
 {
@@ -14,5 +15,6 @@ private:
     void shutdown();
 
 private:
+    CommandRegistry registry_;
     Terminal terminal_;
 };
