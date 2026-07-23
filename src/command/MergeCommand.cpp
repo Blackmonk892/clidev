@@ -1,8 +1,17 @@
 #include "../../include/command/MergeCommand.hpp"
-
+#include <filesystem>
 #include <iostream>
+#include <vector>
+
+namespace fs = std::filesystem;
+
+std::string MergeCommand::name() const
+{
+    return "merge";
+}
 
 void MergeCommand::execute(const std::vector<std::string> &arguments)
+
 {
     if (arguments.size() < 3)
     {
@@ -13,22 +22,48 @@ void MergeCommand::execute(const std::vector<std::string> &arguments)
         return;
     }
 
-    std::cout << "\n";
-    std::cout << "========== Merge Command ==========\n";
-
-    std::cout << "Input 1 : " << arguments[0] << '\n';
-    std::cout << "Input 2 : " << arguments[1] << '\n';
-    std::cout << "Output  : " << arguments[2] << '\n';
-
-    if (arguments.size() > 3)
+    std::vector<fs::path> inputFiles;
+    for (size_t i = 0; i < arguments.size() - 1; i++)
     {
-        std::cout << "\nAdditional PDFs:\n";
+        inputFiles.emplace_back(arguments[i]);
+    }
+    fs::path outputFile = arguments.back();
 
-        for (size_t i = 3; i < arguments.size(); ++i)
+    for (const auto &file : inputFiles)
+    {
+        if (!fs::exists(file))
         {
-            std::cout << " - " << arguments[i] << '\n';
+            std::cout << "\n Error: File not found: " << file << "\n";
+            return;
+        }
+
+        if (file.extension() != ".pdf")
+        {
+            std::cout << "\n Error: Not a PDF file: " << file << "\n";
+            return;
         }
     }
 
-    std::cout << "\n(Real PDF merging will be added using qpdf.)\n\n";
+    if (outputFile.extension() != ".pdf")
+    {
+        std::cout << "\n Error: Output file must have a .pdf extension: " << outputFile << "\n";
+        return;
+    }
+
+    std::cout << "\n";
+    std::cout << "Input PDFs\n";
+    std::cout << "----------\n";
+    for (const auto &file : inputFiles)
+    {
+        std::cout << "✓ " << file << '\n';
+    }
+    std::cout << "\n";
+    std::cout
+        << "Output : "
+        << outputFile
+        << "\n\n";
+    std::cout
+        << "Validation successful.\n";
+    std::cout
+        << "(Actual merging will be implemented in Phase 3.2)\n\n";
 }

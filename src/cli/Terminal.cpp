@@ -54,10 +54,10 @@ void Terminal::run()
     {
         printPrompt();
 
-        std::getline(std::cin, command);
+        std::getline(std::cin, command); // Read user input
 
-        if (!processCommand(command))
-            break;
+        if (!executeInput(command)) // Process the input
+            break;                  // Exit loop if executeInput returns false (e.g., "exit" command)
     }
 }
 
@@ -97,7 +97,7 @@ void Terminal::unknownCommand(const std::string &command)
         << "\n";
 }
 
-bool Terminal::processCommand(const std::string &input)
+bool Terminal::executeInput(const std::string &input)
 {
     if (input.empty())
         return true;
@@ -124,11 +124,9 @@ bool Terminal::processCommand(const std::string &input)
         return true;
     }
 
-    CommandParser parser;
+    ParsedCommand command = parser_.parse(input); // Parse the user input
 
-    ParsedCommand command = parser.parse(input);
-
-    if (registry_.execute(command.name, command.arguments))
+    if (registry_.execute(command.name, command.arguments)) // Attempt to execute the parsed command
     {
         return true;
     }

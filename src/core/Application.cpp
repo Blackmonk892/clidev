@@ -24,7 +24,6 @@ int Application::run()
 void Application::initialize()
 {
     registry_.registerCommand(
-        "merge",
         std::make_unique<MergeCommand>());
 }
 

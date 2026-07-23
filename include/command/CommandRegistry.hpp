@@ -10,7 +10,6 @@ class CommandRegistry
 {
 public:
     void registerCommand(
-        const std::string &name,
         std::unique_ptr<ICommand> command);
 
     bool execute(

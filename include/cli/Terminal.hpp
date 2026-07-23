@@ -1,6 +1,7 @@
 #pragma once
 #include "../command/CommandRegistry.hpp"
 #include <string>
+#include "../parser/CommandParser.hpp" // Required for CommandParser member
 
 class Terminal
 {
@@ -16,7 +17,7 @@ private:
 
     void clear();
 
-    bool processCommand(const std::string &command);
+    bool executeInput(const std::string &input); // Renamed from processCommand
 
     void showHelp();
 
@@ -24,4 +25,5 @@ private:
 
 private:
     CommandRegistry &registry_;
+    CommandParser parser_; // CommandParser is now a member
 };

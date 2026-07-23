@@ -1,10 +1,9 @@
 #include "../../include/command/CommandRegistry.hpp"
 
 void CommandRegistry::registerCommand(
-    const std::string &name,
     std::unique_ptr<ICommand> command)
 {
-    commands_[name] = std::move(command);
+    commands_[command->name()] = std::move(command);
 }
 
 bool CommandRegistry::execute(
